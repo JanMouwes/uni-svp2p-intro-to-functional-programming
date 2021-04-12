@@ -2,11 +2,18 @@
 
 ## Contents
 
-TODO
+ 1. What is Functional Programming?  
+  1.1 Imperative vs Declarative, Functional vs Object Oriented  
+  1.2 Examples of imperative vs functional style  
+ 2. Functional Programming: an overview  
+  2.1 Principles of FP  
+  2.2 FP and code quality: reasoning about your code  
+  2.3 Functional language features  
+ 3. Recommended reading
 
 ## What is Functional Programming?
 
-Functional Programming (FP) is a programming paradigm that orients itself around functions and function composition. It is *not* bound by language necessarily, though certain languages accommodate it more easily than others.
+Functional Programming (FP) is a programming paradigm that orients itself around functions and function composition. It is *not* bound by language necessarily, though certain languages accommodate it more easily than others. We will see examples of this in the section about language features.
 
 ### Imperative vs Declarative, Functional vs Object Oriented
 
@@ -34,7 +41,7 @@ class LengthGetter {
 ```
 
 ```haskell
-# Functional
+-- Functional
 
 stringLengths :: [String] -> [Int]
 stringLengths strs = map length strs
@@ -118,26 +125,63 @@ class Example {
 }
 ```
 
-### FP and Code Quality: reasoning about your code
+### FP and code quality: reasoning about your code
 
+As demonstrated in the principle of referential transparency, the principles of Functional Programming allow us to make certain assumptions. These assumptions should make it easier to reason about our code, because they limit what can go wrong. Function purity, for example, prevents the (program) state from interfering with your functions, which allows you to focus on your program's logic instead. 
 
 ### Functional language features
+Four important functional language features are:
+- Laziness
+- Algebraic data types
+- Pattern matching
+- Partial function application
 
+**Laziness**
 
+Laziness in programming describes the idea that calculations should only be performed when used. For instance, if you were to get the length of the first element of a list of strings, only the length of the first element would be calculated. This is made possible by function purity, as this guarantees that no other side effects will occur while calculating the string's length.
+```haskell
+getFirstLength :: [String] -> Int
+getFirstLength strs = head (map length strs)
+```
 
+**Algebraic data types**
 
-## Functional Programming in Practice
+Algebraic data types allow the programmer to form and name composite types from other types. This sets strict limits on which kinds of data you deal with, as well as that enables the developer to form algebras. 
 
-### Haskell
+```haskell
+-- Algebraic data type of a linked list
+data List a = Nil | Cons a (List a)
+```
 
+**Pattern matching**
 
-### C# & F#
+Pattern matching is, among other things, a companion feature to algebraic data types. It works somewhat like a `switch`, except it also allows you to extract values from the type you're matching on. 
 
+```haskell
+-- Using pattern matching and recursion to get the List's size
+size :: List -> Int
+size Nil = 0
+size (Cons _ n) = 1 + size n
+```
 
-### JavaScript
+**Partial function application**
 
+In some functional languages, functions are defined with one argument at a time. This allows you to craft functions on the fly by partially applying the arguments a function needs. 
+
+```haskell
+-- 'mult' takes in 2 arguments: x and y
+mult :: Int -> Int -> Int
+mult x y = x * y
+
+-- 'mult2' is defined as mult, but with the first argument defined as 2.
+-- this function will multiply any number by 2.
+mult2 :: Int -> Int
+mult2 = mult 2
+
+```
 
 ## Recommended reading
 
 - [Microsoft's Tour of F#](https://docs.microsoft.com/en-us/dotnet/fsharp/tour)
+- [Haskell in 5 steps](https://wiki.haskell.org/Haskell_in_5_steps)
 - [Programming in Haskell](https://www.bol.com/nl/p/programming-in-haskell/9200000061967819/)
